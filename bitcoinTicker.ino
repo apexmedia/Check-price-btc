@@ -62,8 +62,9 @@ void loop() {
   Serial.print("Connecting to ");
   Serial.println(url);
 
+  WiFiClient client;
   HTTPClient http; 
-  http.begin(url);
+  http.begin(client, url);
   int httpCode = http.GET();
 
   StaticJsonDocument<2000> doc;
@@ -84,7 +85,7 @@ void loop() {
   http.end();
 
   Serial.print("Getting history...");
-  http.begin(historyURL);
+  http.begin(client, historyURL);
   int historyHttpCode = http.GET();
   DeserializationError historyError = deserializeJson(doc, http.getString());
 
